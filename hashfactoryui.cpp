@@ -11,7 +11,7 @@
 #include <QSqlError>
 #include <QDateTime>
 #include "databasehandler.hpp"
-
+#include <QDesktopServices>
 
 
 HashFactoryUI::HashFactoryUI(QWidget *parent)
@@ -25,6 +25,11 @@ HashFactoryUI::HashFactoryUI(QWidget *parent)
     connect(ui->loadTable,&QPushButton::clicked,this,&HashFactoryUI::onLoadData);
     connect(ui->filterButton,&QPushButton::clicked,this,&HashFactoryUI::onSearchClicked);
     connect(ui->addToDB,&QPushButton::clicked,this,&HashFactoryUI::onAddClicked);
+    connect(ui->exportButton,&QPushButton::clicked,this,&HashFactoryUI::onExportClicked);
+    connect(ui->importButton,&QPushButton::clicked,this,&HashFactoryUI::onImportClicked);
+    connect(ui->actionExit, &QAction::triggered, this, &HashFactoryUI::onActionExit);
+    connect(ui->actionAbout, &QAction::triggered, this, &HashFactoryUI::onActionAbout);
+    connect(ui->actionHelp, &QAction::triggered, this, &HashFactoryUI::onActionHelp);
 
 
     encryptedAlgorithm.insert("MD5",QCryptographicHash::Md5);
@@ -90,6 +95,27 @@ void HashFactoryUI::onAddClicked()
     addToTable(fileName,hash,algorithmId,typeId,timeNow);
 
 }
+
+void HashFactoryUI::onActionExit()
+{
+    this->close();
+}
+
+void HashFactoryUI::onActionAbout()
+{
+    QUrl url("https://github.com/MiladSabri74/MiladSabri74"); // Replace with your desired URL
+    if (!QDesktopServices::openUrl(url)) {
+        QMessageBox::critical(this, "Error", "Could not open URL.");
+    }
+}
+
+void HashFactoryUI::onActionHelp()
+{
+    QUrl url("https://github.com/MiladSabri74/HashFactory/wiki"); // Replace with your desired URL
+    if (!QDesktopServices::openUrl(url)) {
+        QMessageBox::critical(this, "Error", "Could not open URL.");
+    }
+}
 void HashFactoryUI::onCalculateClicked()
 {
     QFile file(ui->pathFileLineEdit->text());
@@ -144,6 +170,99 @@ void HashFactoryUI::showOnTable(QSqlQuery &query)
         ++row;
     }
 }
+
+void HashFactoryUI::onImportClicked()
+{
+    // Open a file dialog to choose the CSV file
+    QString fileName = QFileDialog::getOpenFileName(this, "Open CSV File", "", "CSV Files (*.csv)");
+    if (fileName.isEmpty()) {
+        return; // User canceled the dialog
+    }
+
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Could not open file for reading.");
+        return;
+    }
+
+    QTextStream in(&file);
+
+    // Read the CSV file line by line
+    //read headerline
+    QString line = in.readLine();
+
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        QStringList fields = line.split(","); // Split by comma (adjust delimiter if needed)
+
+        qDebug() << fields.size();
+        if (fields.size() != 4) { // Example: Expecting 3 columns
+            continue;
+        }
+
+        // Insert the data into the database
+        if (!insertIntoDatabase(fields)) {
+            qDebug("while");
+            QMessageBox::critical(this, "Error", "Failed to insert data into the database.");
+            break;
+        }
+    }
+    qDebug("close");
+    file.close();
+    QMessageBox::information(this, "Success", "Data imported from CSV file successfully.");
+    qDebug("load");
+    loadData();
+}
+
+
+void HashFactoryUI::onExportClicked()
+{
+    // Open a file dialog to choose the save location
+    QString fileName = QFileDialog::getSaveFileName(this, "Save CSV File", "", "CSV Files (*.csv)");
+    if (fileName.isEmpty()) {
+        return; // User canceled the dialog
+    }
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Could not open file for writing.");
+        return;
+    }
+
+    QTextStream out(&file);
+
+    // Get the table widget
+    QTableWidget *table = ui->tableWidget; // Replace with your table widget's object name
+
+    // Write the headers
+    for (int col = 1; col < table->columnCount(); ++col) {
+        out << table->horizontalHeaderItem(col)->text();
+        if (col < table->columnCount() - 1) {
+            out << ",";
+        }
+    }
+    out << "\n";
+
+    // Write the data
+    for (int row = 0; row < table->rowCount(); ++row) {
+        for (int col = 1; col < table->columnCount(); ++col) {
+            QTableWidgetItem *item = table->item(row, col);
+            if (item) {
+                out << item->text();
+            }
+            if (col < table->columnCount() - 1) {
+                out << ",";
+            }
+        }
+        out << "\n";
+    }
+
+    file.close();
+    QMessageBox::information(this, "Success", "Data exported to CSV file successfully.");
+
+}
+
 HashFactoryUI::~HashFactoryUI()
 {
     delete ui;

@@ -185,3 +185,23 @@ void addToTable(QString filename,QString hash,int algorithmId,int typeId,int tim
         qDebug() << "Record inserted successfully.";
     }
 }
+
+bool insertIntoDatabase(const QStringList &data)
+{
+    QSqlQuery query;
+    int type = fetchTypeID(data[1]);
+    int algorithm = fetchAlgorithmId(data[2]);
+    int timeNow = QDateTime::currentSecsSinceEpoch();
+    query.prepare("INSERT INTO hash_list (filename,type, algorithm,hash,creation_date) VALUES (?, ?, ?, ?, ?)");
+    query.addBindValue(data[0]);
+    query.addBindValue(type);
+    query.addBindValue(algorithm);
+    query.addBindValue(data[3]);
+    query.addBindValue(timeNow);
+
+    if (!query.exec()) {
+        qDebug() << "Database error:" << query.lastError().text();
+        return false;
+    }
+    return true;
+}

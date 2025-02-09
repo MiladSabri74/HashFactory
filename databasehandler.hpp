@@ -23,4 +23,6 @@ QSqlQuery fetchRecordByFileName(QString fileName);
 QSqlQuery fetchRecordByAlgorithm(QString algorithm);
 
 void addToTable(QString filename,QString hash,int algorithmId,int typeId,int time);
+bool insertIntoDatabase(const QStringList &data);
+
 #endif // DATABASEHANDLER_HPP

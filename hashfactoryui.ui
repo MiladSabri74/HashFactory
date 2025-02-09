@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>HashFactoryUI</string>
+   <string>Hash Factory</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+    <normaloff>:/images/security.png</normaloff>:/images/security.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">

@@ -28,10 +28,15 @@ private:
     void loadData();
     void showOnTable(QSqlQuery &query);
 private slots:
+    void onImportClicked();
+    void onExportClicked();
     void onCalculateClicked();
     void onBrowseClicked();
     void onLoadData();
     void onSearchClicked();
     void onAddClicked();
+    void onActionExit();
+    void onActionAbout();
+    void onActionHelp();
 };
 #endif // HASHFACTORYUI_H
