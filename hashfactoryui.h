@@ -29,6 +29,7 @@ private:
     void showOnTable(QSqlQuery &query);
 private slots:
     void onCalculateClicked();
+    void onBrowseClicked();
     void onLoadData();
     void onSearchClicked();
     void onAddClicked();

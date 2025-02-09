@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>637</width>
-    <height>526</height>
+    <width>656</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,36 @@
             </size>
            </property>
            <property name="text">
-            <string>...</string>
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="browseButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>70</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+             <normaloff>:/images/folder_open.png</normaloff>:/images/folder_open.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -159,6 +188,12 @@
          </item>
          <item>
           <widget class="QComboBox" name="typeCombo">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
            <item>
             <property name="text">
              <string>trusted</string>
@@ -214,6 +249,12 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QPushButton" name="loadTable">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="text">
             <string>Load</string>
            </property>
@@ -323,6 +364,57 @@
          </column>
         </widget>
        </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="exportButton">
+           <property name="text">
+            <string>Export </string>
+           </property>
+           <property name="icon">
+            <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+             <normaloff>:/images/file_export.png</normaloff>:/images/file_export.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="importButton">
+           <property name="text">
+            <string>Import</string>
+           </property>
+           <property name="icon">
+            <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+             <normaloff>:/images/file_open.png</normaloff>:/images/file_open.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </item>
@@ -333,7 +425,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>637</width>
+     <width>656</width>
      <height>23</height>
     </rect>
    </property>
@@ -341,6 +433,8 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -354,13 +448,30 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+     <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
   </action>
   <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+     <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+   </property>
    <property name="text">
     <string>Help</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="build/Desktop-Release/qmake_qmake_immediate.qrc">
+     <normaloff>:/images/exit.png</normaloff>:/images/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>

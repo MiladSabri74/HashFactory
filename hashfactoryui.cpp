@@ -20,14 +20,8 @@ HashFactoryUI::HashFactoryUI(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->pathFileLineEdit, &QLineEdit::selectionChanged, this, [this]() {
-        QString filePath = QFileDialog::getOpenFileName(nullptr, "Select File", "", "All Files (*.*)");
-        if (!filePath.isEmpty()) {
-            ui->pathFileLineEdit->setText(filePath);
-        }
-    });
-
     connect(ui->calculateButton,&QPushButton::clicked,this,&HashFactoryUI::onCalculateClicked);
+    connect(ui->browseButton,&QPushButton::clicked,this,&HashFactoryUI::onBrowseClicked);
     connect(ui->loadTable,&QPushButton::clicked,this,&HashFactoryUI::onLoadData);
     connect(ui->filterButton,&QPushButton::clicked,this,&HashFactoryUI::onSearchClicked);
     connect(ui->addToDB,&QPushButton::clicked,this,&HashFactoryUI::onAddClicked);
@@ -79,7 +73,7 @@ void HashFactoryUI::onSearchClicked()
         query = fetchRecordByAlgorithm(searchValue);
     }
     else if (searchType == "Hash"){
-       query =  fetchRecordByHash(searchValue);
+        query =  fetchRecordByHash(searchValue);
     }
 
     showOnTable(query);
@@ -114,6 +108,14 @@ void HashFactoryUI::onCalculateClicked()
     showOnTable(query);
 
 
+}
+
+void HashFactoryUI::onBrowseClicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(nullptr, "Select File", "", "All Files (*.*)");
+    if (!filePath.isEmpty()) {
+        ui->pathFileLineEdit->setText(filePath);
+    }
 }
 
 void HashFactoryUI::showOnTable(QSqlQuery &query)
